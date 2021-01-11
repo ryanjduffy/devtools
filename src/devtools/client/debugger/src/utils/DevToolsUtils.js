@@ -4,6 +4,7 @@
 
 //
 
+import { executeSoon } from "shared/utils";
 import assert from "./assert";
 
 export function reportException(who, exception) {
@@ -11,8 +12,5 @@ export function reportException(who, exception) {
   console.error(msg, exception);
 }
 
-export function executeSoon(fn) {
-  setTimeout(fn, 0);
-}
-
 export default assert;
+export { executeSoon };

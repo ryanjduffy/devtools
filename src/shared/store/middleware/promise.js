@@ -5,9 +5,10 @@
 //
 
 import { fromPairs, toPairs } from "lodash";
-import { executeSoon } from "../../../utils/DevToolsUtils";
 
-import { pending, rejected, fulfilled } from "../../../utils/async-value";
+import { executeSoon } from "../../utils";
+import { pending, rejected, fulfilled } from "../../utils/async-value";
+
 export function asyncActionAsValue(action) {
   if (action.status === "start") {
     return pending();

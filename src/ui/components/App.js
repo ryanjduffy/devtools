@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { useApolloClient, ApolloProvider } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import DevTools from "./DevTools";
 import Account from "./Account";
 import Loader from "./shared/Loader";
 import { AppErrors, PopupBlockedError } from "./shared/Error";
@@ -16,6 +15,8 @@ import ResizeObserverPolyfill from "resize-observer-polyfill";
 
 import "styles.css";
 import { setUserInBrowserPrefs } from "ui/utils/browser";
+
+const DevTools = React.lazy(() => import("_view"));
 
 function useGetApolloClient() {
   const [apolloClient, setApolloClient] = useState(null);
@@ -79,9 +80,11 @@ function App({ theme, recordingId, modal, updateNarrowMode, updateUser }) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      {recordingId ? <DevTools /> : <Account />}
-      {modal?.type === "sharing" ? <SharingModal /> : null}
-      <AppErrors />
+      <React.Suspense fallback={<Loader />}>
+        {recordingId ? <DevTools /> : <Account />}
+        {modal?.type === "sharing" ? <SharingModal /> : null}
+        <AppErrors />
+      </React.Suspense>
     </ApolloProvider>
   );
 }

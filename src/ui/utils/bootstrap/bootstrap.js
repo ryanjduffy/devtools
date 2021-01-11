@@ -55,9 +55,22 @@ export function setupSentry(context) {
   Sentry.setContext("recording", { ...context, url: window.location.href });
 }
 
+const subscriptions = [];
+let args;
+export function subscribe(fn) {
+  if (args) {
+    fn(...args);
+  } else {
+    subscriptions.push(fn);
+  }
+}
+
 export async function bootstrapApp(props, context, store) {
   setupSentry(context);
   setupLogRocket();
+
+  args = [store, context];
+  subscriptions.forEach(fn => fn(...args));
 
   ReactDOM.render(
     <Router>

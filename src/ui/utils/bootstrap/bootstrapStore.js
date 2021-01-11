@@ -2,7 +2,7 @@ import { prefs, asyncStore } from "../prefs";
 import { combineReducers, applyMiddleware } from "redux";
 import { reducers, selectors } from "../../reducers";
 import { setupAppHelper } from "./helpers";
-import configureStore from "devtools/client/debugger/src/actions/utils/create-store";
+import configureStore from "shared/store";
 const { getPrefsService } = require("devtools/client/webconsole/utils/prefs");
 const { getConsoleInitialState } = require("devtools/client/webconsole/store");
 
@@ -84,8 +84,6 @@ export const bootstrapStore = async function bootstrapStore() {
     : applyMiddleware(LogRocket.reduxMiddleware());
 
   const store = createStore(combineReducers(reducers), initialState, middleware);
-
-  dbgClient.bootstrap(store);
 
   registerStoreObserver(store, updatePrefs);
 

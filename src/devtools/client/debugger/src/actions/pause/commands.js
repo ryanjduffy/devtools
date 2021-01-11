@@ -10,7 +10,7 @@ import {
   getResumePoint,
   getFramePositions,
 } from "../../selectors";
-import { PROMISE } from "../utils/middleware/promise";
+import { PROMISE } from "shared/store/middleware/promise";
 import { recordEvent } from "../../utils/telemetry";
 
 import { setFramePositions } from "./setFramePositions";

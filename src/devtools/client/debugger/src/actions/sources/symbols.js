@@ -6,7 +6,7 @@
 
 import { getSymbols } from "../../selectors";
 
-import { PROMISE } from "../utils/middleware/promise";
+import { PROMISE } from "shared/store/middleware/promise";
 import { updateTab } from "../tabs";
 import { loadSourceText } from "./loadSourceText";
 

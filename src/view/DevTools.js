@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import Header from "./Header/index";
-import Loader from "./shared/Loader";
-import RecordingLoadingScreen from "./RecordingLoadingScreen";
-import NonDevView from "./Views/NonDevView";
-import DevView from "./Views/DevView";
+import Header from "../ui/components/Header/index";
+import Loader from "../ui/components/shared/Loader";
+import RecordingLoadingScreen from "../ui/components/RecordingLoadingScreen";
+import NonDevView from "../ui/components/Views/NonDevView";
+import DevView from "../ui/components/Views/DevView";
 
-import { actions } from "../actions";
-import { selectors } from "../reducers";
+import { actions } from "../ui/actions";
+import { selectors } from "../ui/reducers";
 
 const GET_RECORDING = gql`
   query GetRecording($recordingId: String) {

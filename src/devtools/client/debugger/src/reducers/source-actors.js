@@ -18,7 +18,7 @@ import {
   makeReduceAllQuery,
 } from "../utils/resource";
 
-import { asyncActionAsValue } from "../actions/utils/middleware/promise";
+import { asyncActionAsValue } from "shared/store/middleware/promise";
 
 const initial = createInitial();
 

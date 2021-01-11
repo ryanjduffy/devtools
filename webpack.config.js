@@ -1,6 +1,10 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const Visualizer = require("webpack-visualizer-plugin");
+
+const isProd = process.env.NODE_ENV === "production";
 
 module.exports = {
+  mode: isProd ? "production" : "development",
   entry: {
     main: "./src/main",
     parserWorker: "./src/devtools/client/debugger/src/workers/parser/worker",
@@ -26,7 +30,7 @@ module.exports = {
     liveReload: false,
     disableHostCheck: true,
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [new MiniCssExtractPlugin(), !isProd ? new Visualizer() : null].filter(Boolean),
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     modules: [

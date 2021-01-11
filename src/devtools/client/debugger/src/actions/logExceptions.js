@@ -4,7 +4,7 @@
 
 //
 
-import { PROMISE } from "./utils/middleware/promise";
+import { PROMISE } from "shared/store/middleware/promise";
 
 /**
  *

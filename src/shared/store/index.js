@@ -12,9 +12,10 @@
  */
 
 import { createStore, applyMiddleware } from "redux";
+import dynamicMiddlewares, { addMiddleware, removeMiddleware } from "redux-dynamic-middlewares";
+
 import { promise } from "./middleware/promise";
 import { thunk } from "./middleware/thunk";
-import { context } from "./middleware/context";
 
 /**
  * @memberof utils/create-store
@@ -35,7 +36,7 @@ import { context } from "./middleware/context";
  * @static
  */
 const configureStore = (opts = {}) => {
-  const middleware = [thunk(opts.makeThunkArgs), context, promise];
+  const middleware = [thunk(opts.makeThunkArgs), promise, dynamicMiddlewares];
 
   if (opts.middleware) {
     opts.middleware.forEach(fn => middleware.push(fn));
@@ -49,3 +50,4 @@ const configureStore = (opts = {}) => {
 };
 
 export default configureStore;
+export { addMiddleware, removeMiddleware };
