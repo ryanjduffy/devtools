@@ -10,7 +10,7 @@ module.exports = {
     parserWorker: "./src/devtools/client/debugger/src/workers/parser/worker",
     searchWorker: "./src/devtools/client/debugger/src/workers/search/worker",
   },
-  devtool: "source-map",
+  devtool: isProd ? false : "source-map",
   output: {
     publicPath: "dist",
   },
@@ -30,7 +30,7 @@ module.exports = {
     liveReload: false,
     disableHostCheck: true,
   },
-  plugins: [new MiniCssExtractPlugin(), !isProd ? new Visualizer() : null].filter(Boolean),
+  plugins: [new MiniCssExtractPlugin(), new Visualizer()].filter(Boolean),
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     modules: [

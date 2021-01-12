@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { useApolloClient, ApolloProvider } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import Account from "./Account";
 import Loader from "./shared/Loader";
 import { AppErrors, PopupBlockedError } from "./shared/Error";
 import SharingModal from "./shared/SharingModal";
@@ -16,6 +15,7 @@ import ResizeObserverPolyfill from "resize-observer-polyfill";
 import "styles.css";
 import { setUserInBrowserPrefs } from "ui/utils/browser";
 
+const Account = React.lazy(() => import("./Account"));
 const DevTools = React.lazy(() => import("view"));
 
 function useGetApolloClient() {
