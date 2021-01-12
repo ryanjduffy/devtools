@@ -8,7 +8,8 @@ import { AppErrors, PopupBlockedError } from "./shared/Error";
 import SharingModal from "./shared/SharingModal";
 import { isDeployPreview } from "ui/utils/environment";
 import { selectors } from "ui/reducers";
-import { actions } from "ui/actions";
+import { updateNarrowMode } from "ui/actions/app";
+import { updateUser } from "ui/actions/metadata";
 import { hasLoadingParam } from "ui/utils/environment";
 import ResizeObserverPolyfill from "resize-observer-polyfill";
 
@@ -97,7 +98,7 @@ export default connect(
     sessionId: selectors.getSessionId(state),
   }),
   {
-    updateNarrowMode: actions.updateNarrowMode,
-    updateUser: actions.updateUser,
+    updateNarrowMode: updateNarrowMode,
+    updateUser: updateUser,
   }
 )(App);

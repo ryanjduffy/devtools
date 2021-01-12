@@ -8,8 +8,6 @@ import { User } from "ui/state/metadata";
 import { query } from "ui/utils/apolloClient";
 import { gql } from "@apollo/client";
 
-const LogRocket = require("ui/utils/logrocket").default;
-
 export type SetCommentsAction = Action<"set_comments"> & { comments: Comment[] };
 export type SetFocusedCommentAction = Action<"set_focused_comment_id"> & { id: number | null };
 export type RegisterUserAction = Action<"register_user"> & { user: User };
@@ -115,15 +113,9 @@ export function updateUser(authUser: any = {}): UIThunkAction {
         picture: authUser.picture,
         name: authUser.name,
         loggedIn: !!userId,
+        email: authUser.email,
+        sub: authUser.sub,
       },
     });
-
-    if (authUser.sub) {
-      LogRocket.identify(authUser.sub, {
-        name: authUser.name,
-        email: authUser.email,
-        id: userId,
-      });
-    }
   };
 }

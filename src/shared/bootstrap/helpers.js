@@ -1,8 +1,8 @@
-import { bindActionCreators } from "redux";
+// import { bindActionCreators } from "redux";
 import { ThreadFront } from "protocol/thread";
 
 import { prefs, features } from "ui/utils/prefs";
-import { actions } from "ui/actions";
+// import { actions } from "ui/actions";
 import { selectors } from "ui/reducers";
 import { prefs as consolePrefs } from "devtools/client/webconsole/utils/prefs";
 
@@ -14,7 +14,7 @@ import {
 export function setupAppHelper(store) {
   window.app = {
     store,
-    actions: bindActionCreators(actions, store.dispatch),
+    // actions: bindActionCreators(actions, store.dispatch),
     selectors: bindSelectors({ store, selectors }),
     consolePrefs,
     prefs,

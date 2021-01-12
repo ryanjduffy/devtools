@@ -5,56 +5,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Auth0Context } from "@auth0/auth0-react";
 import { ApolloProvider } from "@apollo/client";
 
-import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/apm";
-
 import App from "ui/components/App";
 import Auth0ProviderWithHistory from "ui/utils/auth0";
-import LogRocket from "ui/utils/logrocket";
 import { createApolloClient } from "ui/utils/apolloClient";
-
-import { isDevelopment, isTest } from "ui/utils/environment";
-
-const skipTelemetry = isTest() || isDevelopment();
-
-function setupLogRocket() {
-  if (skipTelemetry) {
-    return;
-  }
-
-  LogRocket.init("4sdo4i/replay");
-  LogRocket.getSessionURL(sessionURL => {
-    Sentry.configureScope(scope => {
-      scope.setExtra("sessionURL", sessionURL);
-    });
-  });
-}
-
-export function setupSentry(context) {
-  const ignoreList = ["Current thread has paused or resumed", "Current thread has changed"];
-
-  if (skipTelemetry) {
-    return;
-  }
-
-  Sentry.init({
-    dsn: "https://41c20dff316f42fea692ef4f0d055261@o437061.ingest.sentry.io/5399075",
-    integrations: [new Integrations.Tracing()],
-    tracesSampleRate: 1.0,
-    beforeSend(event) {
-      if (event) {
-        const exceptionValue = event?.exception.values[0].value;
-        if (ignoreList.some(ignore => exceptionValue.includes(ignore))) {
-          return null;
-        }
-      }
-
-      return event;
-    },
-  });
-
-  Sentry.setContext("recording", { ...context, url: window.location.href });
-}
 
 const subscriptions = [];
 let args;
@@ -67,8 +20,7 @@ export function subscribe(fn) {
 }
 
 export async function bootstrapApp(props, context, store) {
-  setupSentry(context);
-  setupLogRocket();
+  import(/* webpackPrefetch: true */ "../telemetry").then(m => m.init(context));
 
   args = [store, context];
   subscriptions.forEach(fn => fn(...args));

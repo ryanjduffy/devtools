@@ -1,15 +1,15 @@
 const url = new URL(window.location.href);
 
 const recordingId = url.searchParams.get("id");
-const dispatch = url.searchParams.get("dispatch");
-const test = url.searchParams.get("test");
+// const dispatch = url.searchParams.get("dispatch");
+// const test = url.searchParams.get("test");
 
 // During testing, make sure we clear local storage before importing
 // any code that might instantiate preferences from local storage.
-if (test) {
-  localStorage.clear();
-  require("devtools-modules").asyncStorage.clear();
-}
+// if (test) {
+//   localStorage.clear();
+//   require("devtools-modules").asyncStorage.clear();
+// }
 
 // *** WARNING ***
 //
@@ -19,32 +19,31 @@ if (test) {
 // be good if this was less fragile...
 //
 
-const { initSocket } = require("protocol/socket");
-const loadImages = require("image/image");
-const { setupLogpoints } = require("./protocol/logpoint");
+// const { initSocket } = require("protocol/socket");
+// const { setupLogpoints } = require("./protocol/logpoint");
 const { bootstrapApp, bootstrapStore } = require("shared/bootstrap");
-const { setupTimeline, setupMetadata, setupApp } = require("ui/actions").actions;
-const { setupGraphics } = require("protocol/graphics");
-const { setupMessages } = require("devtools/client/webconsole/actions/messages");
+// const { setupTimeline, setupMetadata, setupApp } = require("ui/actions").actions;
+// const { setupGraphics } = require("protocol/graphics");
+// const { setupMessages } = require("devtools/client/webconsole/actions/messages");
 
 const { LocalizationHelper } = require("devtools/shared/l10n");
-const { setupEventListeners } = require("devtools/client/debugger/src/actions/event-listeners");
-const { createSession } = require("ui/actions/session");
-const {
-  initOutputSyntaxHighlighting,
-} = require("./devtools/client/webconsole/utils/syntax-highlighted");
+// const { setupEventListeners } = require("devtools/client/debugger/src/actions/event-listeners");
+// const { createSession } = require("ui/actions/session");
+// const {
+//   initOutputSyntaxHighlighting,
+// } = require("./devtools/client/webconsole/utils/syntax-highlighted");
 
 let initialized = false;
 async function initialize() {
   window.L10N = new LocalizationHelper("devtools/client/locales/debugger.properties");
-  loadImages();
+  import("image/image").then(fn => fn());
 
   // Initialize the socket so we can communicate with the server
-  initSocket(store, dispatch);
+  // initSocket(store, dispatch);
 
-  if (recordingId) {
-    createSession(store, recordingId);
-  }
+  // if (recordingId) {
+  //   createSession(store, recordingId);
+  // }
 
   document.body.addEventListener("contextmenu", e => e.preventDefault());
 
@@ -67,19 +66,19 @@ async function initialize() {
   store = await bootstrapStore();
   await bootstrapApp({}, { recordingId }, store);
 
-  if (!initialized) {
-    initialized = true;
-    await initialize();
-  }
+  //   if (!initialized) {
+  //     initialized = true;
+  //     await initialize();
+  //   }
 
-  if (recordingId) {
-    setupApp(recordingId, store);
-    setupTimeline(recordingId, store);
-    setupMetadata(recordingId, store);
-    setupEventListeners(recordingId, store);
-    setupGraphics(store);
-    initOutputSyntaxHighlighting();
-    setupMessages(store);
-    setupLogpoints();
-  }
+  //   if (recordingId) {
+  //     setupApp(recordingId, store);
+  //     setupTimeline(recordingId, store);
+  //     setupMetadata(recordingId, store);
+  //     setupEventListeners(recordingId, store);
+  //     setupGraphics(store);
+  //     initOutputSyntaxHighlighting();
+  //     setupMessages(store);
+  //     setupLogpoints();
+  //   }
 })();

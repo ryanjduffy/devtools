@@ -1,0 +1,3 @@
+{
+  "redirects": [{ "source": "/view", "destination": "/" }]
+}

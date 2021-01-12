@@ -1,11 +1,9 @@
-const { getPrefsService } = require("devtools/client/webconsole/utils/prefs");
-const { getConsoleInitialState } = require("devtools/client/webconsole/store");
-import * as dbgClient from "devtools/client/debugger/src/client";
+// const { getPrefsService } = require("devtools/client/webconsole/utils/prefs");
+// const { getConsoleInitialState } = require("devtools/client/webconsole/store");
+// import * as dbgClient from "devtools/client/debugger/src/client";
 
 import { isDevelopment, isTest } from "ui/utils/environment";
-import LogRocket from "ui/utils/logrocket";
 import { prefs, asyncStore } from "ui/utils/prefs";
-import { sanityCheckMiddleware } from "ui/utils/sanitize";
 import { reducers, selectors } from "ui/reducers";
 
 import { configureStore } from "../store";
@@ -16,13 +14,13 @@ const skipTelemetry = isTest() || isDevelopment();
 
 async function getInitialState() {
   const eventListenerBreakpoints = await asyncStore.eventListenerBreakpoints;
-  const initialDebuggerState = await dbgClient.loadInitialState();
-  const initialConsoleState = getConsoleInitialState();
+  // const initialDebuggerState = await dbgClient.loadInitialState();
+  // const initialConsoleState = getConsoleInitialState();
 
   return {
-    ...initialDebuggerState,
+    // ...initialDebuggerState,
     eventListenerBreakpoints,
-    ...initialConsoleState,
+    // ...initialConsoleState,
   };
 }
 
@@ -57,22 +55,15 @@ function updatePrefs(state, oldState) {
 export const bootstrapStore = async function bootstrapStore() {
   // TODO; manage panels outside of the Toolbox componenet
   const panels = {};
-
-  const prefsService = getPrefsService();
-
   const initialState = await getInitialState();
-  const middleware = skipTelemetry
-    ? isDevelopment()
-      ? sanityCheckMiddleware
-      : undefined
-    : LogRocket.reduxMiddleware();
+  // const prefsService = getPrefsService();
 
-  const store = configureStore(reducers, initialState, middleware, {
+  const store = configureStore(reducers, initialState, null, {
     makeThunkArgs: args => {
       return {
         ...args,
         panels,
-        prefsService,
+        // prefsService,
       };
     },
   });

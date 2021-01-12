@@ -1,6 +1,5 @@
 import LogRocket from "logrocket";
 import setupLogRocketReact from "logrocket-react";
-import { sanitizeAction, sanitizeState } from "./sanitize";
 
 let setup = false;
 
