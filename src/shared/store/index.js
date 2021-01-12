@@ -15,7 +15,9 @@ import { createStore, applyMiddleware } from "redux";
 import dynamicMiddlewares, { addMiddleware, removeMiddleware } from "redux-dynamic-middlewares";
 
 import { promise } from "./middleware/promise";
-import { thunk } from "./middleware/thunk";
+import { addThunkEnhancer, thunk } from "./middleware/thunk";
+
+import { appendReducers, initReducer, initStore } from "./reducers";
 
 /**
  * @memberof utils/create-store
@@ -35,19 +37,17 @@ import { thunk } from "./middleware/thunk";
  * @memberof utils/create-store
  * @static
  */
-const configureStore = (opts = {}) => {
-  const middleware = [thunk(opts.makeThunkArgs), promise, dynamicMiddlewares];
-
-  if (opts.middleware) {
-    opts.middleware.forEach(fn => middleware.push(fn));
-  }
+const configureStore = (reducer, initialState, middleware, opts = {}) => {
+  middleware = [thunk(opts.makeThunkArgs), promise, dynamicMiddlewares, middleware].filter(Boolean);
 
   // Hook in the redux devtools browser extension if it exists
   const devtoolsExt =
     typeof window === "object" && window.devToolsExtension ? window.devToolsExtension() : f => f;
 
-  return applyMiddleware(...middleware)(devtoolsExt(createStore));
+  const _createStore = devtoolsExt(createStore);
+  return initStore(
+    _createStore(initReducer(reducer), initialState, applyMiddleware(...middleware))
+  );
 };
 
-export default configureStore;
-export { addMiddleware, removeMiddleware };
+export { addThunkEnhancer, appendReducers, configureStore, addMiddleware, removeMiddleware };

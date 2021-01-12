@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Auth0Context } from "@auth0/auth0-react";
+import { ApolloProvider } from "@apollo/client";
 
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/apm";
@@ -11,9 +12,9 @@ import App from "ui/components/App";
 import Auth0ProviderWithHistory from "ui/utils/auth0";
 import LogRocket from "ui/utils/logrocket";
 import { createApolloClient } from "ui/utils/apolloClient";
-import { ApolloProvider } from "@apollo/client";
 
-import { isDevelopment, isTest } from "../environment";
+import { isDevelopment, isTest } from "ui/utils/environment";
+
 const skipTelemetry = isTest() || isDevelopment();
 
 function setupLogRocket() {

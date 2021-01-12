@@ -22,15 +22,13 @@ if (test) {
 const { initSocket } = require("protocol/socket");
 const loadImages = require("image/image");
 const { setupLogpoints } = require("./protocol/logpoint");
-const { bootstrapApp } = require("ui/utils/bootstrap/bootstrap");
-const { bootstrapStore } = require("ui/utils/bootstrap/bootstrapStore");
+const { bootstrapApp, bootstrapStore } = require("shared/bootstrap");
 const { setupTimeline, setupMetadata, setupApp } = require("ui/actions").actions;
 const { setupGraphics } = require("protocol/graphics");
 const { setupMessages } = require("devtools/client/webconsole/actions/messages");
 
 const { LocalizationHelper } = require("devtools/shared/l10n");
 const { setupEventListeners } = require("devtools/client/debugger/src/actions/event-listeners");
-const { DevToolsToolbox } = require("ui/utils/devtools-toolbox");
 const { createSession } = require("ui/actions/session");
 const {
   initOutputSyntaxHighlighting,
@@ -66,7 +64,6 @@ async function initialize() {
 }
 
 (async () => {
-  window.gToolbox = new DevToolsToolbox();
   store = await bootstrapStore();
   await bootstrapApp({}, { recordingId }, store);
 

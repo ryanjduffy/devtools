@@ -4,6 +4,15 @@
 
 //
 
+const enhancers = [];
+const enhance = args => enhancers.reduce((acc, fn) => fn(acc), args);
+
+export function addThunkEnhancer(fn) {
+  if (!enhancers.includes(fn)) {
+    enhancers.push(fn);
+  }
+}
+
 /**
  * A middleware that allows thunks (functions) to be dispatched. If
  * it's a thunk, it is called with an argument that contains
@@ -11,12 +20,13 @@
  * middleware constructure. This allows the action to create multiple
  * actions (most likely asynchronously).
  */
-export function thunk(makeArgs) {
+export function thunk(enhancer) {
+  addThunkEnhancer(enhancer);
   return ({ dispatch, getState }) => {
     const args = { dispatch, getState };
 
     return next => action => {
-      return typeof action === "function" ? action(makeArgs ? makeArgs(args) : args) : next(action);
+      return typeof action === "function" ? action(enhance(args)) : next(action);
     };
   };
 }

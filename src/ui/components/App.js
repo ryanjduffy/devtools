@@ -16,7 +16,7 @@ import ResizeObserverPolyfill from "resize-observer-polyfill";
 import "styles.css";
 import { setUserInBrowserPrefs } from "ui/utils/browser";
 
-const DevTools = React.lazy(() => import("_view"));
+const DevTools = React.lazy(() => import("view"));
 
 function useGetApolloClient() {
   const [apolloClient, setApolloClient] = useState(null);
