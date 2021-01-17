@@ -13,11 +13,12 @@ import {
   previousPaintEvent,
 } from "protocol/graphics";
 import { actions } from "ui/actions";
-import { selectors } from "ui/reducers";
-import { UIStore, UIThunkAction } from ".";
+import { selectors } from "../reducers";
+import { UIStore, UIThunkAction } from "ui/actions";
 import { Action } from "redux";
 import { PauseEventArgs, RecordingDescription } from "protocol/thread/thread";
-import { TimelineState, Tooltip, ZoomRegion, HoveredPoint } from "ui/state/timeline";
+import { TimelineState, Tooltip, ZoomRegion, HoveredPoint } from "pages/view/state/timeline";
+import { DebuggerAction } from "./debugger";
 
 export type SetTimelineStateAction = Action<"set_timeline_state"> & {
   state: Partial<TimelineState>;
@@ -65,7 +66,7 @@ function onWarp(store: UIStore) {
   };
 }
 
-function onEndpoint({ point, time }: TimeStampedPoint): UIThunkAction {
+function onEndpoint({ point, time }: TimeStampedPoint): UIThunkAction<void, TimelineAction> {
   return ({ getState, dispatch }) => {
     // This could be called before setRecordingDescription.
     // These two methods should be commoned up.
@@ -80,7 +81,7 @@ function onEndpoint({ point, time }: TimeStampedPoint): UIThunkAction {
   };
 }
 
-function onPaused({ time }: PauseEventArgs): UIThunkAction {
+function onPaused({ time }: PauseEventArgs): UIThunkAction<void, TimelineAction> {
   return async ({ dispatch, getState }) => {
     dispatch(setTimelineState({ currentTime: time, playback: null }));
 
@@ -93,7 +94,10 @@ function onPaused({ time }: PauseEventArgs): UIThunkAction {
   };
 }
 
-function setRecordingDescription({ duration, lastScreen }: RecordingDescription): UIThunkAction {
+function setRecordingDescription({
+  duration,
+  lastScreen,
+}: RecordingDescription): UIThunkAction<void, TimelineAction> {
   return ({ dispatch, getState }) => {
     const zoomRegion = selectors.getZoomRegion(getState());
 
@@ -112,7 +116,7 @@ function setRecordingDescription({ duration, lastScreen }: RecordingDescription)
   };
 }
 
-export function updateTimelineDimensions(): UIThunkAction {
+export function updateTimelineDimensions(): UIThunkAction<void, TimelineAction> {
   return ({ dispatch }) => {
     const el = document.querySelector(".progress-bar");
     const width = el ? el.clientWidth : 1;
@@ -132,7 +136,7 @@ export function setTimelineToTime({
 }: {
   time: number;
   offset: number;
-}): UIThunkAction {
+}): UIThunkAction<void, TimelineAction> {
   return async ({ dispatch, getState }) => {
     try {
       dispatch(updateTooltip({ left: offset }));
@@ -151,7 +155,7 @@ export function setTimelineToTime({
   };
 }
 
-export function hideTooltip(): UIThunkAction {
+export function hideTooltip(): UIThunkAction<void, TimelineAction> {
   return ({ dispatch }) => {
     dispatch(updateTooltip(null));
     dispatch(setTimelineState({ hoverTime: null }));
@@ -220,7 +224,7 @@ export function togglePlayback(): UIThunkAction {
   };
 }
 
-export function startPlayback(): UIThunkAction {
+export function startPlayback(): UIThunkAction<void, TimelineAction> {
   return ({ dispatch, getState }) => {
     log(`StartPlayback`);
 
@@ -242,7 +246,7 @@ export function startPlayback(): UIThunkAction {
   };
 }
 
-export function stopPlayback(): UIThunkAction {
+export function stopPlayback(): UIThunkAction<void, TimelineAction> {
   return ({ dispatch, getState }) => {
     log(`StopPlayback`);
 
@@ -263,7 +267,10 @@ export function replayPlayback(): UIThunkAction {
   };
 }
 
-function playback(startTime: number, endTime: number): UIThunkAction {
+function playback(
+  startTime: number,
+  endTime: number
+): UIThunkAction<void, TimelineAction | DebuggerAction> {
   return async ({ dispatch, getState }) => {
     let startDate = Date.now();
     let currentDate = startDate;
@@ -373,8 +380,28 @@ export function goToPrevPaint(): UIThunkAction {
   };
 }
 
-export function setHoveredPoint(hoveredPoint: HoveredPoint): UIThunkAction {
+export function setHoveredPoint(hoveredPoint: HoveredPoint): UIThunkAction<void, TimelineAction> {
   return ({ dispatch }) => {
     dispatch({ type: "set_hovered_point", hoveredPoint });
   };
 }
+
+const timelineActions = {
+  setupTimeline,
+  updateTimelineDimensions,
+  setTimelineState,
+  setTimelineToTime,
+  hideTooltip,
+  setZoomRegion,
+  seek,
+  seekToTime,
+  togglePlayback,
+  startPlayback,
+  stopPlayback,
+  replayPlayback,
+  goToNextPaint,
+  goToPrevPaint,
+  setHoveredPoint,
+};
+
+export default timelineActions;

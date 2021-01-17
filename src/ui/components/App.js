@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { useApolloClient, ApolloProvider } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import DevTools from "./DevTools";
+import DevTools from "pages/view";
+
 import Account from "./Account";
 import Loader from "./shared/Loader";
 import { AppErrors, PopupBlockedError } from "./shared/Error";

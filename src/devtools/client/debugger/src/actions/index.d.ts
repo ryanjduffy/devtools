@@ -1,7 +1,7 @@
-import { UIAction, UIThunkAction } from "ui/actions";
+import { ReplayAction, UIThunkAction } from "ui/actions";
 
 declare const _default: {
-  [name: string]: UIAction | UIThunkAction;
+  [name: string]: ReplayAction | UIThunkAction;
 };
 
 export default _default;

@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import Header from "./Header/index";
-import Prompt from "./shared/Prompt";
+
+import Prompt from "ui/components/shared/Prompt";
 import { screenshotCache, nextPaintEvent, getClosestPaintPoint } from "protocol/graphics";
-import { selectors } from "../reducers";
+
+import { selectors as appSelectors } from "ui/reducers";
+import { selectors } from "./reducers";
 
 async function getScreenshotSafely(paintPoint) {
   if (!paintPoint) {
@@ -77,7 +79,7 @@ function RecordingLoadingScreen({ loading, recordingDuration }) {
 
 export default connect(
   state => ({
-    loading: selectors.getLoading(state),
+    loading: appSelectors.getLoading(state),
     recordingDuration: selectors.getRecordingDuration(state),
   }),
   {}

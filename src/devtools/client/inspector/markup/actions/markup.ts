@@ -104,7 +104,10 @@ export function scrollIntoView(scrollIntoViewNode: string): UpdateScrollIntoView
  * Expand the given node after ensuring its child nodes are loaded and added to the tree.
  * If shouldScrollIntoView is true, the node is scrolled into view if its children need to be loaded.
  */
-export function expandNode(nodeId: string, shouldScrollIntoView = false): UIThunkAction {
+export function expandNode(
+  nodeId: string,
+  shouldScrollIntoView = false
+): UIThunkAction<void, MarkupAction> {
   return async ({ dispatch, getState }) => {
     const tree = getState().markup.tree;
     const node = tree[nodeId];
@@ -141,7 +144,7 @@ export function selectionChanged(
   selection: Selection,
   expandSelectedNode: boolean,
   shouldScrollIntoView = false
-): UIThunkAction {
+): UIThunkAction<void, MarkupAction> {
   return async ({ dispatch }) => {
     const selectedNode = selection.nodeFront;
     if (!selectedNode) {
@@ -250,7 +253,7 @@ function getNextNodeId(state: UIState, nodeId: string) {
   return nodeId;
 }
 
-export function onLeftKey(): UIThunkAction {
+export function onLeftKey(): UIThunkAction<void, MarkupAction> {
   return ({ getState, dispatch }) => {
     const state = getState();
     const selectedNodeId = getSelectedNodeId(state);

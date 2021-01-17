@@ -1,6 +1,6 @@
-import { TimelineAction } from "ui/actions/timeline";
+import { TimelineAction } from "../actions/timeline";
+import { TimelineState } from "../state/timeline";
 import { UIState } from "ui/state";
-import { TimelineState } from "ui/state/timeline";
 
 function initialTimelineState(): TimelineState {
   return {

@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
-import Timeline from "../Timeline";
-import Viewer from "../Viewer";
-import Toolbox from "../Toolbox";
-import Toolbar from "../Toolbar";
-import SplitBox from "devtools/client/shared/components/splitter/SplitBox";
-import SecondaryToolbox from "../SecondaryToolbox";
+import { installObserver } from "protocol/graphics";
+import SecondaryToolbox from "ui/components/SecondaryToolbox";
+import Timeline from "ui/components/Timeline";
+import Toolbox from "ui/components/Toolbox";
+import Toolbar from "ui/components/Toolbar";
+import Viewer from "ui/components/Viewer";
+import { prefs } from "ui/utils/prefs";
 
-import { installObserver } from "../../../protocol/graphics";
-import { updateTimelineDimensions } from "pages/view/actions/timeline";
-import { prefs } from "../../utils/prefs";
-import { selectors } from "../../reducers";
+import SplitBox from "devtools/client/shared/components/splitter/SplitBox";
+
+import { updateTimelineDimensions } from "./actions/timeline";
+import { selectors as appSelectors } from "ui/reducers";
+import { selectors } from "./reducers";
 
 function DevView({ updateTimelineDimensions, narrowMode }) {
   const handleMove = num => {
@@ -76,7 +78,7 @@ function DevView({ updateTimelineDimensions, narrowMode }) {
 
 export default connect(
   state => ({
-    narrowMode: selectors.getNarrowMode(state),
+    narrowMode: appSelectors.getNarrowMode(state),
   }),
   {
     updateTimelineDimensions,

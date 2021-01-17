@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import Header from "./Header/index";
-import Loader from "./shared/Loader";
-import RecordingLoadingScreen from "./RecordingLoadingScreen";
-import NonDevView from "./Views/NonDevView";
-import DevView from "./Views/DevView";
-import hooks from "../hooks";
+import Header from "./components/Header";
+import Loader from "ui/components/shared/Loader";
 
-import { actions } from "../actions";
-import { selectors } from "../reducers";
+import DevView from "./DevView";
+import NonDevView from "./NonDevView";
+import RecordingLoadingScreen from "./RecordingLoadingScreen";
+
+import hooks from "ui/hooks";
+
+import { selectors as appSelectors } from "ui/reducers";
+
+import { actions } from "./actions";
+import { selectors } from "./reducers";
 
 function getUploadingMessage(uploading) {
   if (!uploading) {
@@ -118,15 +122,15 @@ function DevTools({
 
 export default connect(
   state => ({
-    loading: selectors.getLoading(state),
-    uploading: selectors.getUploading(state),
+    loading: appSelectors.getLoading(state),
+    uploading: appSelectors.getUploading(state),
     recordingDuration: selectors.getRecordingDuration(state),
-    sessionId: selectors.getSessionId(state),
-    recordingId: selectors.getRecordingId(state),
-    expectedError: selectors.getExpectedError(state),
-    selectedPanel: selectors.getSelectedPanel(state),
-    viewMode: selectors.getViewMode(state),
-    narrowMode: selectors.getNarrowMode(state),
+    sessionId: appSelectors.getSessionId(state),
+    recordingId: appSelectors.getRecordingId(state),
+    expectedError: appSelectors.getExpectedError(state),
+    selectedPanel: appSelectors.getSelectedPanel(state),
+    viewMode: appSelectors.getViewMode(state),
+    narrowMode: appSelectors.getNarrowMode(state),
   }),
   {
     updateTimelineDimensions: actions.updateTimelineDimensions,

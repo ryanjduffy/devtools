@@ -19,7 +19,7 @@ export function clearEventTooltip(): ClearEventTooltipAction {
   return { type: "clear_event_tooltip" };
 }
 
-export function showEventTooltip(nodeId: string): UIThunkAction {
+export function showEventTooltip(nodeId: string): UIThunkAction<void, EventTooltipAction> {
   return async ({ dispatch }) => {
     assert(ThreadFront.currentPause);
     const nodeFront = ThreadFront.currentPause.getNodeFront(nodeId);

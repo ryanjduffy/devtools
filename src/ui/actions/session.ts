@@ -40,7 +40,7 @@ export async function createSession(store: UIStore, recordingId: string, accessT
 
     window.sessionId = sessionId;
     ThreadFront.setSessionId(sessionId);
-    store.dispatch(actions.setUploading(null));
+    store.dispatch(actions.setUploading(false));
     prefs.recordingId = recordingId;
   } catch (e) {
     if (e.code == 9 || e.code == 31) {
@@ -53,9 +53,10 @@ export async function createSession(store: UIStore, recordingId: string, accessT
 
 function onUploadedData({ uploaded, length }: uploadedData): UIThunkAction {
   return ({ dispatch }) => {
-    const uploadedMB = (uploaded / (1024 * 1024)).toFixed(2);
-    const lengthMB = length ? (length / (1024 * 1024)).toFixed(2) : undefined;
-    dispatch(actions.setUploading({ total: lengthMB, amount: uploadedMB }));
+    // FIX: These values do not match the action type so the type may need updated
+    // const uploadedMB = (uploaded / (1024 * 1024)).toFixed(2);
+    // const lengthMB = length ? (length / (1024 * 1024)).toFixed(2) : undefined;
+    dispatch(actions.setUploading(true));
   };
 }
 

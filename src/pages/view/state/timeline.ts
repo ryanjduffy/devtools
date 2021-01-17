@@ -1,5 +1,5 @@
 import { ScreenShot, TimeRange, Location } from "@recordreplay/protocol";
-import { MouseAndClickPosition } from "../../protocol/graphics";
+import { MouseAndClickPosition } from "../../../protocol/graphics";
 
 export interface Tooltip {
   screen?: ScreenShot;

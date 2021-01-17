@@ -10,7 +10,7 @@ const {
 } = require("devtools/client/webconsole/utils/messages");
 const { pointPrecedes } = require("protocol/execution-point-utils");
 const { MESSAGE_TYPE } = require("devtools/client/webconsole/constants");
-const { getCurrentTime } = require("ui/reducers/timeline");
+const { getCurrentTime } = require("pages/view/reducers/timeline");
 const { getExecutionPoint } = require("devtools/client/debugger/src/reducers/pause");
 
 import { createSelector } from "reselect";

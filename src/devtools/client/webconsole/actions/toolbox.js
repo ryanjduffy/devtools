@@ -5,7 +5,7 @@
 "use strict";
 
 import { ThreadFront } from "protocol/thread";
-import { setTimelineState, setHoveredPoint } from "ui/actions/timeline";
+import { setTimelineState, setHoveredPoint } from "pages/view/actions/timeline";
 import { paintGraphicsAtTime } from "protocol/graphics";
 import { selectors } from "ui/reducers";
 

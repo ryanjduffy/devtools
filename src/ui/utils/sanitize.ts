@@ -6,7 +6,7 @@ import { RuleFront } from "protocol/thread/rule";
 import { NodeBoundsFront } from "protocol/thread/bounds";
 import { Dispatch, Middleware } from "redux";
 import { UIState } from "ui/state";
-import { UIAction } from "ui/actions";
+import { ReplayAction } from "ui/actions";
 
 const forbiddenClasses: Record<string, any> = {
   Pause,
@@ -55,7 +55,7 @@ export function sanitizeAction(action: any, logSanitized: boolean) {
 export const sanityCheckMiddleware: Middleware<
   {},
   UIState,
-  Dispatch<UIAction>
+  Dispatch<ReplayAction>
 > = store => next => action => {
   sanitizeAction(action, true);
   return next(action);

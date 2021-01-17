@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import Timeline from "../Timeline";
-import Video from "../Video";
-import SplitBox from "devtools/client/shared/components/splitter/SplitBox";
+import Timeline from "ui/components/Timeline";
+import Video from "ui/components/Video";
 import CommentsPanel from "ui/components/SecondaryToolbox/CommentsPanel";
-import EventListeners from "devtools/client/debugger/src/components/SecondaryPanes/EventListeners";
 import Dropdown from "ui/components/shared/Dropdown";
+import { prefs } from "ui/utils/prefs";
 
-import { updateTimelineDimensions } from "pages/view/actions/timeline";
-import { prefs } from "../../utils/prefs";
-import { selectors } from "../../reducers";
+import SplitBox from "devtools/client/shared/components/splitter/SplitBox";
+import EventListeners from "devtools/client/debugger/src/components/SecondaryPanes/EventListeners";
+
+import { updateTimelineDimensions } from "./actions/timeline";
+import { selectors } from "./reducers";
+
 import "./NonDevView.css";
 
 export function EventsFilter() {
