@@ -5,7 +5,8 @@ import Loader from "../shared/Loader";
 import Prompt from "../shared/Prompt";
 import { gql, useQuery } from "@apollo/client";
 import { setUserInBrowserPrefs } from "../../utils/browser";
-import UserOptions from "ui/components/Header/UserOptions";
+
+import UserOptions from "ui/components/UserOptions";
 
 import "./Account.css";
 

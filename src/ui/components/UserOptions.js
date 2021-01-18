@@ -1,9 +1,11 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import React, { useState } from "react";
+
 import LoginButton from "ui/components/LoginButton";
 import Dropdown from "ui/components/shared/Dropdown";
 import Avatar from "ui/components/Avatar";
 import { isDeployPreview } from "ui/utils/environment";
-import { useAuth0 } from "@auth0/auth0-react";
+
 import "./UserOptions.css";
 
 export default function UserOptions() {

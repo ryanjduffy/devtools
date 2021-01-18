@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-
-import { connect } from "react-redux";
-import { selectors } from "ui/reducers";
-import { actions } from "ui/actions";
-import Avatar from "ui/components/Avatar";
-import Title from "ui/components/shared/Title";
-import IconWithTooltip from "ui/components/shared/IconWithTooltip";
-import ShareDropdown from "ui/components/Header/ShareDropdown";
-import ViewToggle from "ui/components/Header/ViewToggle";
-import UserOptions from "ui/components/Header/UserOptions";
-import "./Header.css";
-
 import { gql, useQuery } from "@apollo/client";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+
+import Avatar from "ui/components/Avatar";
+import IconWithTooltip from "ui/components/shared/IconWithTooltip";
+import Title from "ui/components/shared/Title";
+import UserOptions from "ui/components/UserOptions";
+
+import ShareDropdown from "./ShareDropdown";
+import ViewToggle from "./ViewToggle";
+
+import "./Header.css";
 
 const GET_RECORDING_TITLE = gql`
   query RecordingTitle($id: uuid!) {
@@ -42,12 +40,14 @@ function Avatars({ user, getActiveUsers }) {
   );
 }
 
-function Links({ user, getActiveUsers, recordingId }) {
+function Links({ user, getActiveUsers, recordingId, setSharingModal, setViewMode, viewMode }) {
   return (
     <div className="links">
       <Avatars user={user} getActiveUsers={getActiveUsers} />
-      {recordingId ? <ShareDropdown /> : null}
-      <ViewToggle />
+      {recordingId ? (
+        <ShareDropdown recordingId={recordingId} setSharingModal={setSharingModal} />
+      ) : null}
+      <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
       <UserOptions />
     </div>
   );
@@ -91,7 +91,7 @@ function Subtitle({ date }) {
   return <div className="subtitle">Created {moment(date).fromNow()}</div>;
 }
 
-function Header({ user, getActiveUsers, recordingId }) {
+function Header({ user, getActiveUsers, recordingId, setSharingModal, setViewMode, viewMode }) {
   const [editingTitle, setEditingTitle] = useState(false);
   const backIcon = <div className="img arrowhead-right" style={{ transform: "rotate(180deg)" }} />;
   const dashboardUrl = `${window.location.origin}/view`;
@@ -117,17 +117,16 @@ function Header({ user, getActiveUsers, recordingId }) {
           editingTitle={editingTitle}
         />
       </div>
-      <Links user={user} getActiveUsers={getActiveUsers} recordingId={recordingId} />
+      <Links
+        user={user}
+        getActiveUsers={getActiveUsers}
+        recordingId={recordingId}
+        setSharingModal={setSharingModal}
+        setViewMode={setViewMode}
+        viewMode={viewMode}
+      />
     </div>
   );
 }
 
-export default connect(
-  state => ({
-    user: selectors.getUser(state),
-    recordingId: selectors.getRecordingId(state),
-  }),
-  {
-    getActiveUsers: actions.getActiveUsers,
-  }
-)(Header);
+export default Header;

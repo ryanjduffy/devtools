@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { selectors } from "ui/reducers";
-import { actions } from "ui/actions";
+import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { gql, useQuery, useMutation } from "@apollo/client";
+
 import Dropdown from "ui/components/shared/Dropdown";
+
 import "./ShareDropdown.css";
 
 const UPDATE_IS_PRIVATE = gql`
@@ -182,11 +181,4 @@ function ShareDropdown({ recordingId, setSharingModal }) {
   );
 }
 
-export default connect(
-  state => ({
-    recordingId: selectors.getRecordingId(state),
-  }),
-  {
-    setSharingModal: actions.setSharingModal,
-  }
-)(ShareDropdown);
+export default ShareDropdown;

@@ -51,9 +51,13 @@ function DevTools({
   recordingDuration,
   recordingId,
   expectedError,
+  getActiveUsers,
   setExpectedError,
+  setSharingModal,
+  setViewMode,
   selectedPanel,
   sessionId,
+  user,
   viewMode,
 }) {
   const [recordingLoaded, setRecordingLoaded] = useState(false);
@@ -114,7 +118,14 @@ function DevTools({
 
   return (
     <>
-      <Header />
+      <Header
+        user={user}
+        recordingId={recordingId}
+        getActiveUsers={getActiveUsers}
+        setSharingModal={setSharingModal}
+        setViewMode={setViewMode}
+        viewMode={viewMode}
+      />
       {viewMode == "dev" ? <DevView /> : <NonDevView />}
     </>
   );
@@ -131,9 +142,13 @@ export default connect(
     selectedPanel: appSelectors.getSelectedPanel(state),
     viewMode: appSelectors.getViewMode(state),
     narrowMode: appSelectors.getNarrowMode(state),
+    user: appSelectors.getUser(state),
   }),
   {
     updateTimelineDimensions: actions.updateTimelineDimensions,
     setExpectedError: actions.setExpectedError,
+    setSharingModal: actions.setSharingModal,
+    setViewMode: actions.setViewMode,
+    getActiveUsers: actions.getActiveUsers,
   }
 )(DevTools);

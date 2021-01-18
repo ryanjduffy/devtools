@@ -1,13 +1,9 @@
 import React from "react";
-import { connect } from "react-redux";
 import classnames from "classnames";
-import "./ViewToggle.css";
-import { clearSelectedLocation } from "../../../devtools/client/debugger/src/actions/sources";
-import { getContext } from "../../../devtools/client/debugger/src/reducers/pause";
-import { setViewMode } from "../../actions/app";
-import { getViewMode } from "../../reducers/app";
 
-function ViewToggle({ viewMode, setViewMode, clearSelectedLocation, cx }) {
+import "./ViewToggle.css";
+
+function ViewToggle({ viewMode, setViewMode }) {
   return (
     <button className="view-toggle">
       <div
@@ -30,13 +26,4 @@ function ViewToggle({ viewMode, setViewMode, clearSelectedLocation, cx }) {
   );
 }
 
-export default connect(
-  state => ({
-    cx: getContext(state),
-    viewMode: getViewMode(state),
-  }),
-  {
-    clearSelectedLocation,
-    setViewMode,
-  }
-)(ViewToggle);
+export default ViewToggle;
