@@ -124,7 +124,11 @@ function CommentCard({
         {comment.sourceLocation ? <CommentSource comment={comment} /> : null}
         <CommentItem comment={comment} pendingComment={pendingComment} />
         {comment.replies?.map((reply: Reply, i: number) => (
-          <div className="border-t border-gray-200" key={"id" in reply ? reply.id : 0}>
+          <div
+            className="border-t border-gray-200"
+            key={reply.__opt?.id || reply.id || 0}
+            data-id={reply.__opt?.id || reply.id}
+          >
             <CommentItem comment={reply} pendingComment={pendingComment} />
           </div>
         ))}

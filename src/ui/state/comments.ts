@@ -1,5 +1,12 @@
 import { RecordingId, MouseEvent } from "@recordreplay/protocol";
 
+interface OptimisticModel {
+  __opt?: {
+    id: string;
+    state: "pending" | "committed";
+  };
+}
+
 export interface CommentsState {
   pendingComment: PendingComment | null;
   hoveredComment: any;
@@ -50,7 +57,7 @@ export interface Comment {
   parentId: null;
 }
 
-export interface Reply {
+export interface Reply extends OptimisticModel {
   content: string;
   createdAt: string;
   hasFrames: boolean;

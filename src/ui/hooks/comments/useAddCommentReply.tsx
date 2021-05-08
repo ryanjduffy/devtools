@@ -25,13 +25,18 @@ export default function useAddCommentReply() {
   }
 
   return (reply: any, recordingId: RecordingId) => {
+    const id = new Date().toISOString();
     addCommentReply({
       variables: { input: reply },
       optimisticResponse: {
         addCommentReply: {
           success: true,
           commentReply: {
-            id: new Date().toISOString(),
+            id,
+            __opt: {
+              id,
+              state: "pending",
+            },
             __typename: "CommentReply",
           },
           __typename: "AddCommentReply",
@@ -68,6 +73,10 @@ export default function useAddCommentReply() {
             __typename: "User",
           },
           __typename: "CommentReply",
+          __opt: {
+            id,
+            state: "committed",
+          },
         };
 
         const newParentComment = {

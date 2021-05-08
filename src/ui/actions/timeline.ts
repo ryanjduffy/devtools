@@ -18,7 +18,7 @@ import { UIStore, UIThunkAction } from ".";
 import { Action } from "redux";
 import { PauseEventArgs, RecordingDescription } from "protocol/thread/thread";
 import { TimelineState, Tooltip, ZoomRegion, HoveredItem } from "ui/state/timeline";
-import { getFirstComment } from "ui/hooks/comments";
+import hooks from "ui/hooks";
 import { getPausePointParams, getTest } from "ui/utils/environment";
 import { waitForTime } from "protocol/utils";
 const { features } = require("ui/utils/prefs");
@@ -95,7 +95,7 @@ async function getInitialPausePoint(recordingId: string) {
     return pausePointParams;
   }
 
-  const firstComment = await getFirstComment(recordingId);
+  const firstComment = await hooks.getFirstComment(recordingId);
   if (firstComment) {
     const { point, time } = firstComment;
     hasFrames = firstComment.hasFrames;
