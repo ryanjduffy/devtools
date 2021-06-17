@@ -1,0 +1,17 @@
+name: "Bundlewatch GitHub Action"
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+
+jobs:
+  bundlewatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Borales/actions-yarn@v2.1.0
+      - run: yarn install
+      - uses: jackyef/bundlewatch-gh-action@0.2.0
+        with:
+          build-script: node_modules/.bin/webpack --config webpack.config.js
+          bundlewatch-github-token: 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
